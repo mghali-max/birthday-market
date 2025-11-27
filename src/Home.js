@@ -1,18 +1,23 @@
 // src/Home.js
+import logo from "./assets/logo.png";
+
 import { Link } from "react-router-dom";
 import { CATEGORIES } from "./data";
 
-export default function Home({ points = 100 }) {
+export default function Home({ points = 100, cartCount = 1 }) {
   return (
     <div className="screen">
       {/* Header */}
       <header className="header">
         <button className="icon-button">☰</button>
 
-        <div className="logo">
-          <span className="logo-main">BIRTHDAY</span>
-          <span className="logo-sub">connections</span>
-        </div>
+   <img
+  src={logo}
+  alt="Birthday Connections"
+  className="logo-img"
+/>
+
+
 
         <div className="header-right">
           {/* Points display */}
@@ -22,12 +27,12 @@ export default function Home({ points = 100 }) {
             <span className="points-value">{points}</span>
           </div>
 
-          {/* CLEAN + CENTERED CART ICON */}
-          <button className="icon-button cart-button">
+          {/* CLEAN CART ICON + BADGE */}
+          <Link to="/cart" className="icon-button cart-button">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="26"
-              height="26"
+              width="22"
+              height="22"
               viewBox="0 0 24 24"
               fill="none"
               stroke="#000"
@@ -39,18 +44,13 @@ export default function Home({ points = 100 }) {
               <circle cx="9" cy="21" r="1"></circle>
               <circle cx="20" cy="21" r="1"></circle>
 
-              {/* handle with small gap */}
-              <path d="M1 1h3.2" />
-              <path d="M5.2 1h1.8" />
-
-              {/* top bar + basket */}
-              <path d="M5 6H23" />
-              <path d="M6 6l2.3 12.4a2 2 0 0 0 2 1.6h9.4a2 2 0 0 0 2-1.6L23 6" />
-
-              {/* notification dot */}
-              <circle cx="20.5" cy="4" r="2" fill="#df5c57" stroke="none" />
+              {/* clean frame */}
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
             </svg>
-          </button>
+
+            {/* Badge – always visible for now */}
+            <span className="cart-badge"></span>
+          </Link>
         </div>
       </header>
 

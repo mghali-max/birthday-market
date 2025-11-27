@@ -34,23 +34,53 @@
   background: #f7fcff;          /* same as .screen */
   border-bottom: 1px solid #e5e7eb;
 }
+/* Logo image inside header */
+.logo-img {
+  height: 32px;      /* try 28–36px to taste */
+  width: auto;       /* keep proportions */
+  object-fit: contain;
+}
 
+/* icon-style buttons (hamburger + cart) */
 .icon-button {
   border: none;
   background: none;
   cursor: pointer;
 
-  /* NEW — centers the SVG inside the button */
   display: flex;
   align-items: center;
   justify-content: center;
 
-  /* NEW — makes a consistent tap area */
   width: 32px;
   height: 32px;
-
   padding: 0;
+
+  font-size: 20px;
 }
+
+
+/* cart container so badge can position correctly */
+.cart-button {
+  position: relative;
+}
+
+/* tiny corner badge (small dot) */
+.cart-badge {
+  position: absolute;
+  top: 1px;     /* raise slightly */
+  right: 4px;    /* pull further LEFT */
+
+  width: 7px;
+  height: 7px;
+  background: #df5c57;
+  border-radius: 50%;
+
+  border: 1px solid #f7fcff; /* blend into header */
+  box-sizing: content-box;
+}
+
+
+
 
 
 /* Logo (small, home) */
@@ -107,11 +137,6 @@
 .points-value {
   font-weight: 600;
   font-size: 13px;
-}
-
-/* cart */
-.cart-button svg {
-  display: block;
 }
 
 /* --- MAIN CONTENT AREA --- */
@@ -202,6 +227,14 @@
 
 .lavender {
   background: #e9a5ff;
+}
+/* Arts & Crafts */
+.coral {
+  background: #ff8a5c;
+}
+/* Misc */
+.mint {
+  background: #5eead4;
 }
 
 /* --- CATEGORY SCREEN (BROWSE) --- */
