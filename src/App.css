@@ -22,22 +22,82 @@
 }
 
 /* --- SHARED HEADER (HOME) --- */
+
 .header {
   position: sticky;
   top: 0;
   z-index: 20;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-bottom: 10px;
-  margin-bottom: 16px;
-  background: #f7fcff;          /* same as .screen */
+  flex-direction: column;   /* row 1 (main) + row 2 (points) */
+  gap: 4px;
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+  background: #f7fcff;
   border-bottom: 1px solid #e5e7eb;
 }
-/* Logo image inside header */
+/* Two-row header structure */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: #f7fcff;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Row 1: menu, centered logo */
+.header-row-1 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Spacer to balance the centered logo */
+.header-spacer {
+  width: 32px; /* same width as the icon button */
+}
+
+/* Row 2: points + cart aligned right */
+.header-row-2 {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  padding-right: 4px;
+}
+
+/* Logo slightly smaller */
 .logo-img {
-  height: 32px;      /* try 28–36px to taste */
-  width: auto;       /* keep proportions */
+  height: 30px;
+  width: auto;
+}
+
+/* Points */
+.points-inline {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+}
+
+.points-icon {
+  font-size: 16px;
+}
+
+/* row 1: menu - logo - cart */
+.header-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* logo in the center row */
+.logo-img {
+  height: 32px;
+  width: auto;
   object-fit: contain;
 }
 
@@ -58,7 +118,6 @@
   font-size: 20px;
 }
 
-
 /* cart container so badge can position correctly */
 .cart-button {
   position: relative;
@@ -67,77 +126,36 @@
 /* tiny corner badge (small dot) */
 .cart-badge {
   position: absolute;
-  top: 1px;     /* raise slightly */
-  right: 4px;    /* pull further LEFT */
-
+  top: 1px;
+  right: 4px;
   width: 7px;
   height: 7px;
   background: #df5c57;
   border-radius: 50%;
-
   border: 1px solid #f7fcff; /* blend into header */
   box-sizing: content-box;
 }
 
-
-
-
-
-/* Logo (small, home) */
-.logo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  line-height: 1.1;
-}
-
-.logo-main {
-  font-size: 14px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: #111827;
-}
-
-.logo-sub {
-  font-size: 11px;
-  color: #f97373;
-}
-
-/* header right: points + cart */
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-/* --- CLEAN POINTS DISPLAY (NO OVAL) --- */
-.points-inline,
-.points-pill {
+/* row 2: points (icon + number only) */
+.points-inline {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 4px;            /* small gap between icon and number */
   font-size: 13px;
   color: #111827;
-  padding: 0;
-  border: none;
-  background: none;
 }
 
 .points-icon {
   font-size: 16px;
 }
 
-.points-label {
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #6b7280;
-}
-
 .points-value {
   font-weight: 600;
   font-size: 13px;
 }
+
+
+
 
 /* --- MAIN CONTENT AREA --- */
 .content {
