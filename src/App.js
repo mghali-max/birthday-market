@@ -21,10 +21,28 @@ function App() {
   // points left for the user
   const remainingPoints = INITIAL_POINTS - totalCost;
 
-  // Add a product to cart
+  // Add a product to cart, but NEVER allow negative points.
+  // Returns an object so the caller can react:
+  // { ok: true, remaining: number }
+  // { ok: false, reason: "insufficient" | "no-product", points: number }
   const handleAddToCart = (product) => {
-    if (!product) return;
+    if (!product) {
+      return { ok: false, reason: "no-product", points: remainingPoints };
+    }
+
+    const cost = Number(product.cost) || 0;
+
+    // If the item costs more than the points they have left, block it.
+    if (cost > remainingPoints) {
+      return { ok: false, reason: "insufficient", points: remainingPoints };
+    }
+
+    // Add item to cart
     setCartItems((prev) => [...prev, product]);
+
+    const newRemaining = remainingPoints - cost;
+
+    return { ok: true, remaining: newRemaining };
   };
 
   // Remove item by index

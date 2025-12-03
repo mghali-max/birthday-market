@@ -1006,3 +1006,82 @@ body {
   transform: translateX(2px);
   opacity: 0.95;
 }
+/* ---------- SIMPLE MODAL POPUPS (confirm + insufficient points) ---------- */
+
+.modal-overlay {
+  position: absolute;
+  inset: 0;
+  border-radius: 28px;
+  background: rgba(15, 23, 42, 0.38);
+  backdrop-filter: blur(3px);
+  z-index: 40;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  width: 80%;
+  max-width: 280px;
+  padding: 18px 16px 14px;
+
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.25);
+
+  font-family: var(--font-ui);
+  text-align: left;
+}
+
+.modal-title {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.modal-text {
+  margin: 4px 0;
+  font-size: 13px;
+  color: #4b5563;
+}
+
+.modal-actions {
+  margin-top: 14px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.modal-btn {
+  min-width: 80px;
+  height: 32px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--font-ui);
+  cursor: pointer;
+}
+
+.modal-btn.primary {
+  background: #f56363;
+  color: #ffffff;
+  box-shadow: 0 6px 16px rgba(245, 99, 99, 0.35);
+}
+
+.modal-btn.primary:active {
+  transform: translateY(1px);
+  box-shadow: 0 4px 10px rgba(245, 99, 99, 0.3);
+}
+
+.modal-btn.secondary {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.modal-btn.secondary:active {
+  transform: translateY(1px);
+}
