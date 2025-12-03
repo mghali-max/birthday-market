@@ -817,62 +817,192 @@ body {
 }
 
 /* --- SLIDE-OUT HAMBURGER DRAWER --- */
+/* -------------------------------------------------- */
+/* -------------------------------------------------- */
+/* SLIDE-OUT HAMBURGER DRAWER (CONTENT PUSHES RIGHT)  */
+/* -------------------------------------------------- */
+/* ---------- SLIDE-OUT HAMBURGER DRAWER ---------- */
+
+/* anchor overlay/drawer */
+.screen {
+  position: relative;
+}
+
+/* inner content that moves when menu opens */
+.screen-inner {
+  height: 100%;
+  transition:
+    transform 0.25s ease-out,
+    filter 0.25s ease-out,
+    opacity 0.25s ease-out;
+}
+
+/* when menu is open: push a bit, fade + blur content */
+.screen-inner.shifted {
+  transform: translateX(120px);    /* smaller push distance */
+  filter: blur(2px);
+  opacity: 0.75;
+}
+
+/* ---------------- OVERLAY ---------------- */
 .drawer-overlay {
   position: absolute;
   inset: 0;
   border-radius: 28px;
-  background: rgba(15, 23, 42, 0.25);
+
+  /* darker + stronger blur so the page feels “faded back” */
+  background: rgba(15, 23, 42, 0.18);
+  backdrop-filter: blur(3px);
+
   z-index: 30;
 }
 
+/* ---------------- DRAWER PANEL ---------------- */
 .drawer {
   position: absolute;
   top: 0;
   left: 0;
   bottom: 0;
-  width: 220px;
-  padding: 20px 16px;
-  background: #f7fcff;
+
+  width: 120px;                         /* narrower menu */
+  padding: 60px 18px 24px;              /* ⬅ more top padding so X and first item don't overlap */
+
+  background: #249EA0;                  /* your teal */
   border-radius: 28px 0 0 28px;
-  box-shadow: 4px 0 20px rgba(15, 23, 42, 0.2);
+  box-shadow: 4px 0 18px rgba(0, 0, 0, 0.25);
+
   z-index: 31;
 
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 10px;
 
-  animation: drawerSlideIn 0.18s ease-out;
+  animation: drawerSlideIn 0.25s ease-out;
 }
 
+/* ---------------- MENU ITEMS ---------------- */
 .drawer-item {
   width: 100%;
   text-align: left;
-  padding: 10px 12px;
-  border-radius: 12px;
-  border: none;
-  background: none;
-  font-size: 14px;
-  font-family: var(--font-ui);
-  cursor: pointer;
-}
 
-.drawer-item + .drawer-item {
-  margin-top: 2px;
+  padding: 10px 4px;
+  border-radius: 10px;
+  border: none;
+  background: transparent;
+
+  font-size: 15px;
+  font-weight: 600;
+  font-family: var(--font-ui);
+  color: #e6fdfd;                       /* light teal/white text */
+
+  cursor: pointer;
+  transition:
+    background 0.15s ease-out,
+    transform 0.1s ease-out;
 }
 
 .drawer-item:hover {
-  background: #eef2ff;
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateX(2px);
 }
 
+/* special for Sign out */
 .drawer-item-danger {
-  color: #b91c1c;
+  color: #ffe4e6;
 }
 
+.drawer-item-danger:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* --- Drawer Close Button (top-right) --- */
+.drawer-close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+
+  width: 22px;
+  height: 22px;
+
+  background: transparent;
+  border: none;
+  color: #e6fdfd;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+}
+
+.drawer-close-btn:hover {
+  opacity: 0.75;
+}
+
+.drawer-close-btn:active {
+  transform: scale(0.95);
+}
+
+/* ---------------- ANIMATION ---------------- */
 @keyframes drawerSlideIn {
   from {
     transform: translateX(-100%);
+    opacity: 0.6;
   }
   to {
     transform: translateX(0);
+    opacity: 1;
   }
+}
+/* header-style item with caret */
+.drawer-item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* little arrow on the right */
+.drawer-caret {
+  font-size: 11px;
+  transition: transform 0.15s ease-out;
+}
+
+.drawer-caret.open {
+  transform: rotate(180deg);
+}
+
+/* sublist container */
+.drawer-sublist {
+  margin-top: 4px;
+  margin-left: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* each category inside the sublist */
+.drawer-subitem {
+  border: none;
+  background: transparent;
+  text-align: left;
+
+  padding: 6px 2px;
+  border-radius: 8px;
+
+  font-size: 13px;
+  font-weight: 500;
+  font-family: var(--font-ui);
+  color: #eafefe;
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease-out,
+    transform 0.1s ease-out,
+    opacity 0.15s ease-out;
+}
+
+.drawer-subitem:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateX(2px);
+  opacity: 0.95;
 }
