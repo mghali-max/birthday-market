@@ -810,3 +810,69 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+/* in .screen add: */
+.screen {
+  /* your existing styles... */
+  position: relative; /* make screen the positioning context */
+}
+
+/* --- SLIDE-OUT HAMBURGER DRAWER --- */
+.drawer-overlay {
+  position: absolute;
+  inset: 0;
+  border-radius: 28px;
+  background: rgba(15, 23, 42, 0.25);
+  z-index: 30;
+}
+
+.drawer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 220px;
+  padding: 20px 16px;
+  background: #f7fcff;
+  border-radius: 28px 0 0 28px;
+  box-shadow: 4px 0 20px rgba(15, 23, 42, 0.2);
+  z-index: 31;
+
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  animation: drawerSlideIn 0.18s ease-out;
+}
+
+.drawer-item {
+  width: 100%;
+  text-align: left;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: none;
+  background: none;
+  font-size: 14px;
+  font-family: var(--font-ui);
+  cursor: pointer;
+}
+
+.drawer-item + .drawer-item {
+  margin-top: 2px;
+}
+
+.drawer-item:hover {
+  background: #eef2ff;
+}
+
+.drawer-item-danger {
+  color: #b91c1c;
+}
+
+@keyframes drawerSlideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}

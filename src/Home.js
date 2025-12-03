@@ -1,19 +1,27 @@
 // src/Home.js
-import logo from "./assets/logo.png";
-import GiftIcon from "./assets/gift.svg";   // <-- NEW
-import { Link } from "react-router-dom";
-import { CATEGORIES } from "./data";
-import hamburger from "./assets/hamburger.svg";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
+import logo from "./assets/logo.png";
+import GiftIcon from "./assets/gift.svg";
+import hamburger from "./assets/hamburger.svg";
+import { CATEGORIES } from "./data";
 
 export default function Home({ points = 100 }) {
+  const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     <div className="screen">
       <header className="header">
         {/* ROW 1: hamburger + centered logo */}
         <div className="home-header-row home-header-row1">
           <div className="header-left">
-            <button className="icon-button" aria-label="Menu">
+            <button
+              className="icon-button"
+              aria-label="Menu"
+              onClick={() => setMenuOpen((open) => !open)}
+            >
               <img src={hamburger} alt="Menu" className="hamburger-svg" />
             </button>
           </div>
@@ -26,11 +34,10 @@ export default function Home({ points = 100 }) {
             />
           </div>
 
-          {/* empty spacer so the logo is truly centered between left/right columns */}
           <div className="header-right-spacer" />
         </div>
 
-        {/* ROW 2: points + cart, bottom-right */}
+        {/* ROW 2: points + cart */}
         <div className="home-header-row home-header-row2">
           <div className="header-right">
             <div className="points-inline">
@@ -63,6 +70,47 @@ export default function Home({ points = 100 }) {
           </div>
         </div>
       </header>
+
+      {/* SLIDE-OUT DRAWER (same as Category/Product/Cart) */}
+      {menuOpen && (
+        <>
+          <div
+            className="drawer-overlay"
+            onClick={() => setMenuOpen(false)}
+          />
+          <nav className="drawer">
+            <button
+              className="drawer-item"
+              onClick={() => {
+                navigate("/");
+                setMenuOpen(false);
+              }}
+            >
+              Categories
+            </button>
+
+            <button
+              className="drawer-item"
+              onClick={() => {
+                navigate("/cart");
+                setMenuOpen(false);
+              }}
+            >
+              My Cart
+            </button>
+
+            <button
+              className="drawer-item drawer-item-danger"
+              onClick={() => {
+                alert("Signed out (placeholder)");
+                setMenuOpen(false);
+              }}
+            >
+              Sign out
+            </button>
+          </nav>
+        </>
+      )}
 
       {/* CONTENT */}
       <main className="content">
