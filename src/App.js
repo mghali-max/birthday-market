@@ -1,16 +1,26 @@
 // src/App.js
 import { useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+
 import Home from "./Home";
 import Category from "./Category";
 import ProductPage from "./ProductPage";
 import Cart from "./Cart";
+import LoginPage from "./LoginPage";
+import SurveyPage from "./SurveyPage";
 import "./App.css";
 
 function App() {
   const INITIAL_POINTS = 650;
 
   const [cartItems, setCartItems] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isSurveyComplete, setIsSurveyComplete] = useState(false); // 👈 NEW
 
   // how many points have been spent
   const totalCost = cartItems.reduce(
@@ -52,35 +62,96 @@ function App() {
     );
   };
 
+  const handleLogin = () => {
+    // later we can store child name / code here if needed
+    setIsLoggedIn(true);
+    setIsSurveyComplete(false); // 👈 reset on fresh login
+  };
+
+  const handleSurveyComplete = () => {
+    setIsSurveyComplete(true);
+  };
+
+  // helper so we don't repeat logic
+  const requireSurvey = (element) =>
+    isLoggedIn
+      ? isSurveyComplete
+        ? element
+        : <Navigate to="/survey" replace />
+      : <Navigate to="/login" replace />;
+
   return (
     <BrowserRouter>
       <div className="app-root">
         <Routes>
-          <Route path="/" element={<Home points={remainingPoints} />} />
-
+          {/* LOGIN ROUTE (always allowed) */}
           <Route
-            path="/category/:id"
-            element={<Category points={remainingPoints} />}
+            path="/login"
+            element={<LoginPage onLogin={handleLogin} />}
           />
 
+          {/* SURVEY ROUTE (must be logged in) */}
+          <Route
+            path="/survey"
+            element={
+              isLoggedIn ? (
+                <SurveyPage onComplete={handleSurveyComplete} />
+              ) : (
+                <Navigate to="/login" replace />
+              )
+            }
+          />
+
+          {/* HOME (protected by login + survey) */}
+          <Route
+            path="/"
+            element={requireSurvey(
+              <Home points={remainingPoints} />
+            )}
+          />
+
+          {/* CATEGORY (protected) */}
+          <Route
+            path="/category/:id"
+            element={requireSurvey(
+              <Category points={remainingPoints} />
+            )}
+          />
+
+          {/* PRODUCT (protected) */}
           <Route
             path="/product/:id"
-            element={
+            element={requireSurvey(
               <ProductPage
                 points={remainingPoints}
                 onAddToCart={handleAddToCart}
               />
-            }
+            )}
           />
 
+          {/* CART (protected) */}
           <Route
             path="/cart"
-            element={
+            element={requireSurvey(
               <Cart
                 points={remainingPoints}
                 cartItems={cartItems}
                 onRemoveFromCart={handleRemoveFromCart}
               />
+            )}
+          />
+
+          {/* CATCH-ALL: send people to the right place */}
+          <Route
+            path="*"
+            element={
+              !isLoggedIn ? (
+                <Navigate to="/login" replace />
+              ) : isSurveyComplete ? (
+                <Navigate to="/" replace />
+              ) : (
+                <Navigate to="/survey" replace />
+              )
             }
           />
         </Routes>
