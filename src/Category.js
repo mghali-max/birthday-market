@@ -185,10 +185,19 @@ export default function Category({ points = 100 }) {
                 className="product-row-link"
                 style={{ textDecoration: "none", color: "inherit" }}
                 state={{ product: p }}
-                onClick={saveScrollPosition}   // ⬅ save scroll before navigating
+                onClick={saveScrollPosition} // ⬅ save scroll before navigating
               >
                 <div className="product-row">
-                  <div className="product-image" />
+                  {/* 🔹 UPDATED: product image block */}
+                  <div className="product-image">
+                    {p.image && (
+                      <img
+                        src={`/images/products/${encodeURIComponent(p.image)}`}
+                        alt={p.name}
+                        className="product-img"
+                      />
+                    )}
+                  </div>
 
                   <div className="product-info">
                     <div className="product-name">{p.name}</div>

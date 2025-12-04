@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "./assets/logo.png";
 
-export default function SurveyPage() {
+export default function SurveyPage({ onComplete }) {
   const navigate = useNavigate();
 
   const [agreeTerms, setAgreeTerms] = useState(false);
@@ -15,7 +15,9 @@ export default function SurveyPage() {
 
     // super-light "must complete" rules for now
     if (!postSurveyPlan) {
-      setError("Please tell us if you plan to complete the post-celebration survey.");
+      setError(
+        "Please tell us if you plan to complete the post-celebration survey."
+      );
       return;
     }
 
@@ -26,46 +28,48 @@ export default function SurveyPage() {
 
     setError("");
 
-    // later we can persist the answers somewhere.
-    // For now, move on to the next step in the flow.
-    navigate("/");
+    // mark survey complete in parent (App)
+    if (onComplete) onComplete();
+
+    // move into the guided flow: choose birthday card next
+    navigate("/select-card");
   };
 
   return (
     <div className="screen">
-      {/* HEADER: same structure as LoginPage */}
-      <header className="header">
-        <div className="home-header-row home-header-row1">
-          <div className="header-left" />
-          <div className="header-center login-header-center">
-            <img
-              src={logo}
-              alt="Birthday Connections"
-              className="logo-img header-logo"
-            />
-          </div>
-          <div className="header-right-spacer" />
+      {/* HEADER: same centered-logo structure as LoginPage */}
+      <header className="header login-header">
+        <div className="login-header-inner">
+          <img
+            src={logo}
+            alt="Birthday Connections"
+            className="logo-img header-logo"
+          />
         </div>
       </header>
 
       <main className="survey-content">
-        <h2 className="survey-title">Tell Us About Your Child</h2>
-        <p className="survey-subtitle">
-          Welcome to your no-cost shopping experience!
-        </p>
+        {/* Intro card */}
+        <section className="survey-intro-card">
+          <div className="survey-intro-icon">🎁</div>
+          <h2 className="survey-title">Tell Us About Your Child</h2>
+          <p className="survey-subtitle">
+            Welcome to your no-cost shopping experience!
+          </p>
 
-        <p className="survey-paragraph">
-          As the parent or caretaker, you will choose the birthday gifts and
-          sweet treat you want to give your child. In addition, you will
-          receive party supplies.
-        </p>
-        <p className="survey-paragraph">
-          To get started, please complete the following information. Be sure to
-          complete the entire shopping process at one time. If you leave, you
-          will need to start again from the beginning.
-        </p>
+          <p className="survey-paragraph">
+            As the parent or caretaker, you will choose the birthday gifts and
+            sweet treat you want to give your child. In addition, you will
+            receive party supplies.
+          </p>
+          <p className="survey-paragraph">
+            To get started, please complete the following information. Be sure
+            to complete the entire shopping process at one time. If you leave,
+            you will need to start again from the beginning.
+          </p>
 
-        <p className="survey-note">* All form fields are required</p>
+          <p className="survey-note">* All form fields are required</p>
+        </section>
 
         <form className="survey-form" onSubmit={handleSubmit}>
           {/* DIETARY NEEDS */}
@@ -93,8 +97,9 @@ export default function SurveyPage() {
             </div>
           </section>
 
-          {/* BIRTHDAY / AGE / HOUSEHOLD / ETHNICITY */}
-          <section className="survey-section survey-grid-2">
+          {/* BIRTHDAY / AGE / HOUSEHOLD / ETHNICITY — STACKED ROWS */}
+          <section className="survey-section">
+            {/* Child's birthday */}
             <div className="survey-field-group">
               <label className="survey-label">
                 Your child&apos;s birthday
@@ -124,6 +129,7 @@ export default function SurveyPage() {
               </label>
             </div>
 
+            {/* Age */}
             <div className="survey-field-group">
               <label className="survey-label">
                 Age your child will turn
@@ -136,6 +142,7 @@ export default function SurveyPage() {
               </label>
             </div>
 
+            {/* Head of household */}
             <div className="survey-field-group">
               <label className="survey-label">
                 Head of household
@@ -150,11 +157,12 @@ export default function SurveyPage() {
               </label>
             </div>
 
+            {/* Ethnicity */}
             <div className="survey-field-group">
               <label className="survey-label">
                 Child&apos;s ethnicity
                 <select className="survey-select" required>
-                  <option value="">Select child&apos;s ethnicity</option>
+                  <option value="">Select ethnicity</option>
                   <option>Black / African American</option>
                   <option>Hispanic / Latino</option>
                   <option>White</option>

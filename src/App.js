@@ -13,6 +13,12 @@ import ProductPage from "./ProductPage";
 import Cart from "./Cart";
 import LoginPage from "./LoginPage";
 import SurveyPage from "./SurveyPage";
+
+// NEW guided-flow pages
+import CardSelectionPage from "./CardSelectionPage";
+import SweetTreatSelectionPage from "./SweetTreatSelectionPage";
+import BookSelectionPage from "./BookSelectionPage";
+
 import "./App.css";
 
 function App() {
@@ -20,7 +26,7 @@ function App() {
 
   const [cartItems, setCartItems] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isSurveyComplete, setIsSurveyComplete] = useState(false); // 👈 NEW
+  const [isSurveyComplete, setIsSurveyComplete] = useState(false);
 
   // how many points have been spent
   const totalCost = cartItems.reduce(
@@ -32,9 +38,6 @@ function App() {
   const remainingPoints = INITIAL_POINTS - totalCost;
 
   // Add a product to cart, but NEVER allow negative points.
-  // Returns an object so the caller can react:
-  // { ok: true, remaining: number }
-  // { ok: false, reason: "insufficient" | "no-product", points: number }
   const handleAddToCart = (product) => {
     if (!product) {
       return { ok: false, reason: "no-product", points: remainingPoints };
@@ -42,14 +45,11 @@ function App() {
 
     const cost = Number(product.cost) || 0;
 
-    // If the item costs more than the points they have left, block it.
     if (cost > remainingPoints) {
       return { ok: false, reason: "insufficient", points: remainingPoints };
     }
 
-    // Add item to cart
     setCartItems((prev) => [...prev, product]);
-
     const newRemaining = remainingPoints - cost;
 
     return { ok: true, remaining: newRemaining };
@@ -63,9 +63,8 @@ function App() {
   };
 
   const handleLogin = () => {
-    // later we can store child name / code here if needed
     setIsLoggedIn(true);
-    setIsSurveyComplete(false); // 👈 reset on fresh login
+    setIsSurveyComplete(false); // reset on fresh login
   };
 
   const handleSurveyComplete = () => {
@@ -100,6 +99,37 @@ function App() {
                 <Navigate to="/login" replace />
               )
             }
+          />
+
+          {/* GUIDED FLOW: CARD -> TREAT -> BOOK */}
+          <Route
+            path="/select-card"
+            element={requireSurvey(
+              <CardSelectionPage
+                points={remainingPoints}
+                onAddToCart={handleAddToCart}
+              />
+            )}
+          />
+
+          <Route
+            path="/select-treat"
+            element={requireSurvey(
+              <SweetTreatSelectionPage
+                points={remainingPoints}
+                onAddToCart={handleAddToCart}
+              />
+            )}
+          />
+
+          <Route
+            path="/select-book"
+            element={requireSurvey(
+              <BookSelectionPage
+                points={remainingPoints}
+                onAddToCart={handleAddToCart}
+              />
+            )}
           />
 
           {/* HOME (protected by login + survey) */}
